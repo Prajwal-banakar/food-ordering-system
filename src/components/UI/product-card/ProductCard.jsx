@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "../../../styles/product-card.css";
 
@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 const ProductCard = (props) => {
   const { id, title, image01, price, extraIngredients } = props.item;
   const dispatch = useDispatch();
+  const [showNotification, setShowNotification] = useState(false);
 
   const addToCart = () => {
     dispatch(
@@ -23,10 +24,20 @@ const ProductCard = (props) => {
         extraIngredients
       })
     );
+
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 2000);
   };
 
   return (
-    <div className="product__item d-flex flex-column justify-content-between">
+    <div className="product__item d-flex flex-column justify-content-between position-relative">
+      {showNotification && (
+        <div className="add-to-cart-notification">
+          Added to cart!
+        </div>
+      )}
       <div className="product__content">
         <img className="product__img w-50" src={image01} alt="Pizza" />
         <h5>
